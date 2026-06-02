@@ -105,7 +105,20 @@
 
 ### 当前不包含
 
-- 正式错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新 / 学习报告
+### PR9: 错题录入与 AI 归因联调
+
+- 错题录入页面（表单 + 候选选择器 + 示例题）
+- 调用 POST /api/diagnose 获取 AI 归因
+- 诊断结果展示（source、confidence、warnings、llm metadata）
+- 用户校正知识点和错因标签
+- 确认记录保存到 localStorage（key: `mistake-star-map.confirmed-diagnoses`）
+- Sidebar 错题录入入口 + 首页 QuickEntry 跳转
+- 未配置 LLM 时自动展示 fallback 结果
+- 不写入后端数据库，不更新知识点图鉴
+
+### 当前不包含
+
+- 完整知识点图鉴页面 / 复练页 / 掌握度更新 / 学习报告 / 成就系统
 - 数据库
 - 复杂 UI 框架
 

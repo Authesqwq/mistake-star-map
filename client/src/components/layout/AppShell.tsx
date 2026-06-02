@@ -3,13 +3,13 @@ import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { MainContent } from './MainContent'
 
-type ActiveView = 'today' | 'dev'
+export type ActiveView = 'today' | 'mistake-input' | 'dev'
 
 interface AppShellProps {
   children: ReactNode
   backendOk: boolean
   activeView: ActiveView
-  onNavigate: (view: ActiveView) => void
+  onNavigate: (view: string) => void
 }
 
 export function AppShell({ children, backendOk, activeView, onNavigate }: AppShellProps) {

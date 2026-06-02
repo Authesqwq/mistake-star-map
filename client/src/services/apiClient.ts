@@ -156,3 +156,14 @@ export function getMistakes(): Promise<MistakeData[]> {
 export function getErrorTags(): Promise<ErrorTagData[]> {
   return requestJson<ErrorTagData[]>('/api/mock/error-tags')
 }
+
+// ── PR9: Diagnosis ──
+
+import type { DiagnoseRequest, DiagnoseResponse } from '../types/diagnosis'
+
+export function diagnoseMistake(payload: DiagnoseRequest): Promise<DiagnoseResponse> {
+  return requestJson<DiagnoseResponse>('/api/diagnose', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
