@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { mockStudent } from './data/mockStudent'
+import { getKnowledgeAtlasProgress, getTodayPracticeTasks } from './utils/mockSelectors'
 
 interface HealthStatus {
   status: string
@@ -28,6 +30,9 @@ function App() {
       })
   }, [])
 
+  const atlas = getKnowledgeAtlasProgress()
+  const todayTasks = getTodayPracticeTasks()
+
   return (
     <div className="container">
       <header>
@@ -41,6 +46,50 @@ function App() {
             通过 AI
             错因归纳、知识点图鉴、今日三题和掌握度更新，将错题从静态收藏转化为复练任务。
           </p>
+        </section>
+
+        <section className="status-card">
+          <h2>当前学生</h2>
+          <dl>
+            <dt>姓名</dt>
+            <dd>{mockStudent.name}</dd>
+            <dt>年级</dt>
+            <dd>{mockStudent.grade}</dd>
+            <dt>连续修复</dt>
+            <dd>{mockStudent.streakDays} 天</dd>
+            <dt>错题总数</dt>
+            <dd>{mockStudent.totalMistakes}</dd>
+          </dl>
+        </section>
+
+        <section className="status-card">
+          <h2>知识点图鉴进度</h2>
+          <dl>
+            <dt>总计</dt>
+            <dd>{atlas.total}</dd>
+            <dt>已发现</dt>
+            <dd>{atlas.discovered}</dd>
+            <dt>待修复</dt>
+            <dd>{atlas.toRepair}</dd>
+            <dt>修复中</dt>
+            <dd>{atlas.repairing}</dd>
+            <dt>已掌握</dt>
+            <dd>{atlas.mastered}</dd>
+          </dl>
+        </section>
+
+        <section className="status-card">
+          <h2>今日三题</h2>
+          <p>待完成: {todayTasks.length} 题</p>
+          {todayTasks.length > 0 && (
+            <ul>
+              {todayTasks.map((t) => (
+                <li key={t.id}>
+                  <strong>{t.title}</strong> — 优先级 {t.priorityScore}
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
 
         <section className="status-card">

@@ -1,0 +1,43 @@
+import type { PracticeTask } from '../types/domain'
+
+export const mockPracticeTasks: PracticeTask[] = [
+  {
+    id: 'task-001',
+    mistakeId: 'mistake-002',
+    knowledgePointId: 'kp-func-graph',
+    type: 'original',
+    title: '核心修复：一次函数图像与象限判断',
+    question: '一次函数 y = kx + b 的图像经过第一、三、四象限，判断 k 和 b 的符号。',
+    expectedAnswer: 'k > 0, b < 0',
+    recommendationReason: '图像方向是你的高频错因，先修复原题建立信心',
+    priorityScore: 95,
+    status: 'pending',
+    createdAt: '2026-06-01T08:00:00.000Z',
+  },
+  {
+    id: 'task-002',
+    mistakeId: 'mistake-002',
+    knowledgePointId: 'kp-func-graph',
+    type: 'same_type',
+    title: '同类巩固：一次函数图像方向判断',
+    question: '若一次函数 y = (m-2)x + (3-m) 的图像经过第二、三、四象限，求 m 的取值范围。',
+    expectedAnswer: 'k = m-2 < 0 → m < 2；b = 3-m < 0 → m > 3。m < 2 且 m > 3 无解，所以不存在这样的 m。',
+    recommendationReason: '同一知识点换一组参数，检验你是否真正掌握了 k、b 符号与象限的对应关系',
+    priorityScore: 85,
+    status: 'pending',
+    createdAt: '2026-06-01T08:10:00.000Z',
+  },
+  {
+    id: 'task-003',
+    mistakeId: 'mistake-004',
+    knowledgePointId: 'kp-extraneous-check',
+    type: 'variant',
+    title: '间隔复查：增根检验',
+    question: '解方程：x/(x-3) - 2 = 3/(x-3)',
+    expectedAnswer: 'x - 2(x-3) = 3 → x - 2x + 6 = 3 → -x = -3 → x = 3。检验：x=3 使分母为 0，是增根，原方程无解。',
+    recommendationReason: '你之前在这类题上漏了检验步骤，这道题恰好有增根，检验习惯很重要',
+    priorityScore: 75,
+    status: 'pending',
+    createdAt: '2026-06-01T08:20:00.000Z',
+  },
+]

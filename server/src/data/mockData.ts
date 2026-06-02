@@ -1,0 +1,98 @@
+import type { StudentProfile, ErrorTag, Mistake, PracticeTask } from '../types/domain'
+
+export const mockStudent: StudentProfile = {
+  id: 'student-001',
+  name: '小星',
+  grade: '八年级',
+  streakDays: 3,
+  repairValue: 42,
+  totalMistakes: 10,
+  completedPracticeCount: 7,
+}
+
+export const mockErrorTags: ErrorTag[] = [
+  { id: 'careless_calculation', name: '粗心计算', category: '计算错误', description: '符号、数字、单位、漏算等问题', severity: 3 },
+  { id: 'concept_confusion', name: '概念模糊', category: '理解偏差', description: '定义、条件、性质理解不稳定', severity: 4 },
+  { id: 'logic_gap', name: '逻辑断层', category: '推理缺陷', description: '推导步骤缺失或跳步', severity: 4 },
+  { id: 'question_misread', name: '审题偏差', category: '审题问题', description: '漏看条件或误解题意', severity: 3 },
+  { id: 'method_transfer_weak', name: '方法迁移弱', category: '应用能力', description: '会原题，不会变式', severity: 4 },
+  { id: 'incomplete_expression', name: '表达不完整', category: '书写规范', description: '过程、理由、结论表述不完整', severity: 2 },
+  { id: 'formula_misuse', name: '公式适用错误', category: '应用能力', description: '公式选择或使用条件错误', severity: 3 },
+]
+
+export const mockMistakes: Mistake[] = [
+  {
+    id: 'mistake-001',
+    subjectId: 'math',
+    chapterId: 'ch-linear-function',
+    knowledgePointId: 'kp-func-expression',
+    title: '一次函数斜率符号判断错误',
+    question: '已知一次函数 y = -2x + 3，判断其图像经过哪些象限。',
+    wrongAnswer: '第一、二、三象限',
+    correctAnswer: '第一、二、四象限',
+    explanation: 'k = -2 < 0，图像从左到右下降；b = 3 > 0，与 y 轴正半轴相交。',
+    difficulty: 'easy',
+    source: 'mock',
+    errorTagIds: ['concept_confusion', 'careless_calculation'],
+    createdAt: '2026-05-20T08:00:00.000Z',
+    updatedAt: '2026-05-20T08:00:00.000Z',
+  },
+  {
+    id: 'mistake-002',
+    subjectId: 'math',
+    chapterId: 'ch-linear-function',
+    knowledgePointId: 'kp-func-graph',
+    title: '一次函数图像象限判断错误',
+    question: '一次函数 y = kx + b 的图像经过第一、三、四象限，判断 k 和 b 的符号。',
+    wrongAnswer: 'k > 0, b > 0',
+    correctAnswer: 'k > 0, b < 0',
+    explanation: '经过一、三象限说明 k > 0；经过第四象限说明 b < 0。',
+    difficulty: 'medium',
+    source: 'mock',
+    errorTagIds: ['concept_confusion', 'logic_gap'],
+    createdAt: '2026-05-21T09:30:00.000Z',
+    updatedAt: '2026-05-21T09:30:00.000Z',
+  },
+]
+
+export const mockPracticeTasks: PracticeTask[] = [
+  {
+    id: 'task-001',
+    mistakeId: 'mistake-002',
+    knowledgePointId: 'kp-func-graph',
+    type: 'original',
+    title: '核心修复：一次函数图像与象限判断',
+    question: '一次函数 y = kx + b 的图像经过第一、三、四象限，判断 k 和 b 的符号。',
+    expectedAnswer: 'k > 0, b < 0',
+    recommendationReason: '图像方向是你的高频错因，先修复原题建立信心',
+    priorityScore: 95,
+    status: 'pending',
+    createdAt: '2026-06-01T08:00:00.000Z',
+  },
+  {
+    id: 'task-002',
+    mistakeId: 'mistake-002',
+    knowledgePointId: 'kp-func-graph',
+    type: 'same_type',
+    title: '同类巩固：一次函数图像方向判断',
+    question: '若一次函数 y = (m-2)x + (3-m) 的图像经过第二、三、四象限，求 m 的取值范围。',
+    expectedAnswer: 'k < 0 且 b < 0 → m < 2 且 m > 3 → 无解，不存在这样的 m。',
+    recommendationReason: '检验你是否真正掌握 k、b 符号与象限的对应关系',
+    priorityScore: 85,
+    status: 'pending',
+    createdAt: '2026-06-01T08:10:00.000Z',
+  },
+  {
+    id: 'task-003',
+    mistakeId: 'mistake-004',
+    knowledgePointId: 'kp-extraneous-check',
+    type: 'variant',
+    title: '间隔复查：增根检验',
+    question: '解方程：x/(x-3) - 2 = 3/(x-3)',
+    expectedAnswer: 'x = 3 为增根，原方程无解',
+    recommendationReason: '检验习惯很重要，这道题恰好有增根',
+    priorityScore: 75,
+    status: 'pending',
+    createdAt: '2026-06-01T08:20:00.000Z',
+  },
+]
