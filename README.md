@@ -80,12 +80,19 @@
 - 候选知识点和错因标签白名单过滤
 - 前端轻量联调按钮
 
+### PR7: 前端布局与视觉系统
+
+- AppShell 页面框架（Header + Sidebar + MainContent）
+- CSS 设计变量 tokens（颜色、圆角、阴影、间距、字体）
+- 通用 UI 组件（Button、Card、MetricCard、Badge、Tag、StatusDot、ProgressBar、LoadingState、ErrorState、EmptyState）
+- 前端统一 API Client（requestJson + 类型化 helpers）
+- 开发预览面板（ApiStatusPanel、MockSummaryPanel、DiagnosisSmokePanel）
+- 响应式布局（移动端 Sidebar 堆叠展示）
+- 重构 App.tsx 为开发预览视图
+
 ### 当前不包含
 
-- 正式错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新
-- 数据库
-- 复杂 UI 框架
-- 错题录入 / 错因归因 / 知识点图鉴 / 今日三题 / 复练页面
+- 正式今日修复中心 / 错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新
 - 数据库
 - 复杂 UI 框架
 
