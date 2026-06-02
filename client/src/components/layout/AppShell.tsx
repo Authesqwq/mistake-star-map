@@ -3,12 +3,10 @@ import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { MainContent } from './MainContent'
 
-export type ActiveView = 'today' | 'mistake-input' | 'dev'
-
 interface AppShellProps {
   children: ReactNode
   backendOk: boolean
-  activeView: ActiveView
+  activeView: string
   onNavigate: (view: string) => void
 }
 

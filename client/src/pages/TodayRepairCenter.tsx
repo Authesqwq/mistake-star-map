@@ -122,6 +122,7 @@ export function TodayRepairCenter({ onNavigate }: TodayRepairCenterProps) {
 
       <QuickEntryGrid
         onOpenMistakeInput={onNavigate ? () => onNavigate('mistake-input') : undefined}
+        onOpenAtlas={onNavigate ? () => onNavigate('atlas') : undefined}
       />
     </div>
   )

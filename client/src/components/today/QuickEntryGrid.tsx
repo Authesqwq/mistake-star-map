@@ -3,12 +3,13 @@ import { QuickEntryCard } from './QuickEntryCard'
 
 interface QuickEntryGridProps {
   onOpenMistakeInput?: () => void
+  onOpenAtlas?: () => void
 }
 
-export function QuickEntryGrid({ onOpenMistakeInput }: QuickEntryGridProps) {
+export function QuickEntryGrid({ onOpenMistakeInput, onOpenAtlas }: QuickEntryGridProps) {
   const entries = [
     { title: '录入新错题', description: '手动添加或拍照录入错题', pr: 'PR9', icon: 'plus', action: onOpenMistakeInput },
-    { title: '查看知识点图鉴', description: '浏览数学知识图谱与掌握度', pr: 'PR10', icon: 'map' },
+    { title: '查看知识点图鉴', description: '浏览数学知识图谱与掌握度', pr: 'PR10', icon: 'map', action: onOpenAtlas },
     { title: '继续复练', description: '完成推荐任务，巩固薄弱点', pr: 'PR12', icon: 'target' },
     { title: '查看学习报告', description: '每周掌握度变化与修复建议', pr: 'PR15', icon: 'chart' },
   ]
