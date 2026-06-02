@@ -59,11 +59,20 @@
 - 健康检查增强（llmProvider 字段）
 - 前端展示 LLM 配置状态
 
+### PR5: Prompt 工程与诊断 Schema
+
+- 诊断 Prompt 构造器（system + user）
+- Few-shot 诊断示例（4 个，覆盖一次函数/分式方程/全等三角形）
+- Zod 结构化输出 Schema
+- JSON 解析工具（支持直接 JSON / 代码块 / 夹杂文本）
+- 候选知识点和错因标签白名单校验
+- 本地 Schema 验证脚本 `npm run validate:diagnosis-schema`
+- 不调用真实 LLM，不实现 `/api/diagnose`
+
 ### 当前不包含
 
-- 真实大模型调用的业务逻辑（仅 smoke-test 可用于验证连接）
-- Prompt 模板与结构化 Schema
-- `/api/diagnose`
+- `/api/diagnose`（PR6 实现）
+- 真实大模型调用的业务逻辑（仅 PR4 smoke-test 可用于验证连接）
 - 错题录入 / 错因归因 / 知识点图鉴 / 今日三题 / 复练页面
 - 数据库
 - 复杂 UI 框架
@@ -109,12 +118,27 @@ mistake-star-map/
 │   │   │   └── llm.ts              # LLM 状态与烟雾测试
 │   │   ├── services/
 │   │   │   ├── mockDataService.ts  # Mock 数据服务层
-│   │   │   └── llm/                # LLM Provider 适配层
-│   │   │       ├── llmTypes.ts     # LLM 类型定义
-│   │   │       ├── llmErrors.ts    # LLM 错误类型
-│   │   │       ├── llmConfig.ts    # 配置校验
-│   │   │       ├── llmClient.ts    # 核心调用客户端
-│   │   │       └── index.ts        # 导出索引
+│   │   │   ├── llm/                # LLM Provider 适配层
+│   │   │   │   ├── llmTypes.ts     # LLM 类型定义
+│   │   │   │   ├── llmErrors.ts    # LLM 错误类型
+│   │   │   │   ├── llmConfig.ts    # 配置校验
+│   │   │   │   ├── llmClient.ts    # 核心调用客户端
+│   │   │   │   └── index.ts        # 导出索引
+│   │   │   └── diagnosis/          # 诊断解析
+│   │   │       ├── diagnosisTypes.ts
+│   │   │       ├── diagnosisParser.ts
+│   │   │       └── index.ts
+│   │   ├── prompts/                # Prompt 工程
+│   │   │   ├── promptTypes.ts
+│   │   │   ├── diagnosisPrompt.ts
+│   │   │   ├── diagnosisExamples.ts
+│   │   │   └── index.ts
+│   │   ├── schemas/                # 结构化输出 Schema
+│   │   │   ├── diagnosisSchema.ts
+│   │   │   ├── schemaValidation.ts
+│   │   │   └── index.ts
+│   │   ├── scripts/                # 本地验证脚本
+│   │   │   └── validateDiagnosisSchema.ts
 │   │   ├── utils/
 │   │   │   ├── apiResponse.ts      # 统一响应工具
 │   │   │   └── timeout.ts          # 超时控制工具
@@ -174,6 +198,7 @@ npm run dev
 | `npm run build` | 同时构建前端和后端 |
 | `npm run build:client` | 仅构建前端 |
 | `npm run build:server` | 仅构建后端 |
+| `npm run validate:diagnosis-schema` | 验证诊断 Schema 与 Few-shot 示例 |
 
 ## API 列表
 
