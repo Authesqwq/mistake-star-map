@@ -140,6 +140,27 @@ header h1 {
   font-size: 0.9rem;
 }
 
+.btn-diag {
+  display: inline-block;
+  padding: 10px 24px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-diag:hover {
+  opacity: 0.85;
+}
+
+.btn-diag:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 footer {
   text-align: center;
   margin-top: 48px;
