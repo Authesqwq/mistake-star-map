@@ -1,4 +1,4 @@
-type ActiveView = 'today' | 'dev'
+type ActiveView = 'today' | 'mistake-input' | 'dev'
 
 interface NavItem {
   id: string
@@ -10,7 +10,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 'today', label: '今日修复中心', icon: '?', view: 'today' },
-  { id: 'mistake-input', label: '错题录入', icon: '?', disabled: true },
+  { id: 'mistake-input', label: '错题录入', icon: '?', view: 'mistake-input' },
   { id: 'atlas', label: '知识点图鉴', icon: '?', disabled: true },
   { id: 'practice', label: '复练任务', icon: '?', disabled: true },
   { id: 'report', label: '学习报告', icon: '?', disabled: true },
@@ -19,7 +19,7 @@ const navItems: NavItem[] = [
 
 interface SidebarProps {
   active: ActiveView
-  onNavigate: (view: ActiveView) => void
+  onNavigate: (view: string) => void
 }
 
 export function Sidebar({ active, onNavigate }: SidebarProps) {

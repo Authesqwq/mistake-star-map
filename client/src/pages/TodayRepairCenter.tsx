@@ -25,7 +25,11 @@ import {
 } from '../utils/dashboardSelectors'
 import type { KnowledgePoint, PracticeTask, ErrorTag } from '../types/domain'
 
-export function TodayRepairCenter() {
+interface TodayRepairCenterProps {
+  onNavigate?: (view: string) => void
+}
+
+export function TodayRepairCenter({ onNavigate }: TodayRepairCenterProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -116,7 +120,9 @@ export function TodayRepairCenter() {
         />
       </div>
 
-      <QuickEntryGrid />
+      <QuickEntryGrid
+        onOpenMistakeInput={onNavigate ? () => onNavigate('mistake-input') : undefined}
+      />
     </div>
   )
 }
