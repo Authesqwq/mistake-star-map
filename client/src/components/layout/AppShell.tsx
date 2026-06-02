@@ -3,12 +3,16 @@ import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { MainContent } from './MainContent'
 
+type ActiveView = 'today' | 'dev'
+
 interface AppShellProps {
   children: ReactNode
   backendOk: boolean
+  activeView: ActiveView
+  onNavigate: (view: ActiveView) => void
 }
 
-export function AppShell({ children, backendOk }: AppShellProps) {
+export function AppShell({ children, backendOk, activeView, onNavigate }: AppShellProps) {
   return (
     <div style={{
       display: 'flex',
@@ -17,15 +21,9 @@ export function AppShell({ children, backendOk }: AppShellProps) {
       background: 'var(--color-bg)',
     }}>
       <Header backendOk={backendOk} />
-      <div style={{
-        display: 'flex',
-        flex: 1,
-        '@media (maxWidth: 768)': {
-          flexDirection: 'column',
-        },
-      } as React.CSSProperties}>
+      <div style={{ display: 'flex', flex: 1 }}>
         <div className="sidebar-container">
-          <Sidebar active="dev" />
+          <Sidebar active={activeView} onNavigate={onNavigate} />
         </div>
         <MainContent>{children}</MainContent>
       </div>
