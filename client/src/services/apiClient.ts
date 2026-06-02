@@ -92,3 +92,67 @@ export function diagnoseSample(): Promise<DiagnoseData> {
     }),
   })
 }
+
+// ── PR8 additions ──
+
+interface StudentData {
+  id: string; name: string; grade: string
+  streakDays: number; repairValue: number
+  totalMistakes: number; completedPracticeCount: number
+}
+
+interface PracticeTaskData {
+  id: string; mistakeId: string; knowledgePointId: string
+  type: string; title: string; question: string
+  expectedAnswer: string; recommendationReason: string
+  priorityScore: number; status: string; createdAt: string
+}
+
+interface AtlasProgressData {
+  total: number; undiscovered: number; discovered: number
+  toRepair: number; repairing: number; mastered: number
+}
+
+interface KnowledgePointData {
+  id: string; subjectId: string; chapterId: string
+  name: string; description: string; status: string
+  mastery: number; relatedMistakeIds: string[]
+  majorErrorTagIds: string[]; nextReviewAt: string | null
+}
+
+interface MistakeData {
+  id: string; subjectId: string; chapterId: string
+  knowledgePointId: string; title: string; question: string
+  wrongAnswer: string; correctAnswer: string; explanation: string
+  difficulty: string; source: string; errorTagIds: string[]
+  createdAt: string; updatedAt: string
+}
+
+interface ErrorTagData {
+  id: string; name: string; category: string
+  description: string; severity: number
+}
+
+export function getStudentProfile(): Promise<StudentData> {
+  return requestJson<StudentData>('/api/mock/student')
+}
+
+export function getTodayPracticeTasks(): Promise<PracticeTaskData[]> {
+  return requestJson<PracticeTaskData[]>('/api/mock/practice-tasks/today')
+}
+
+export function getAtlasProgress(): Promise<AtlasProgressData> {
+  return requestJson<AtlasProgressData>('/api/mock/atlas-progress')
+}
+
+export function getKnowledgePoints(): Promise<KnowledgePointData[]> {
+  return requestJson<KnowledgePointData[]>('/api/mock/knowledge-points')
+}
+
+export function getMistakes(): Promise<MistakeData[]> {
+  return requestJson<MistakeData[]>('/api/mock/mistakes')
+}
+
+export function getErrorTags(): Promise<ErrorTagData[]> {
+  return requestJson<ErrorTagData[]>('/api/mock/error-tags')
+}

@@ -90,9 +90,22 @@
 - 响应式布局（移动端 Sidebar 堆叠展示）
 - 重构 App.tsx 为开发预览视图
 
+### PR8: 今日修复中心
+
+- 正式首页「今日修复中心」
+- WelcomeHero + StudentStatsGrid
+- 今日三题任务列表（来自 `/api/mock/practice-tasks/today`）
+- 知识点图鉴进度卡（来自 `/api/mock/atlas-progress`）
+- 高风险知识点列表（前端计算，来自 `/api/mock/knowledge-points`）
+- AI 归因能力状态卡（来自 `/api/llm/status`）
+- 4 个后续学习入口卡（Coming soon，标注对应 PR）
+- Sidebar 页面切换（今日修复中心 / 开发联调）
+- 开发联调页保留 ApiStatusPanel、MockSummaryPanel、DiagnosisSmokePanel
+- 首页不会自动调用 /api/diagnose
+
 ### 当前不包含
 
-- 正式今日修复中心 / 错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新
+- 正式错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新 / 学习报告
 - 数据库
 - 复杂 UI 框架
 
