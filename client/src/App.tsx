@@ -2,17 +2,31 @@ import { useEffect, useState } from 'react'
 import { mockStudent } from './data/mockStudent'
 import { getKnowledgeAtlasProgress, getTodayPracticeTasks } from './utils/mockSelectors'
 
-interface HealthStatus {
+interface HealthData {
   status: string
   service: string
+  version: string
+  environment: string
   llmConfigured: boolean
-  timestamp: string
+  uptime: number
+}
+
+interface MockSummary {
+  studentCount: number
+  subjectCount: number
+  chapterCount: number
+  knowledgePointCount: number
+  mistakeCount: number
+  errorTagCount: number
+  practiceTaskCount: number
+  achievementCount: number
 }
 
 function App() {
-  const [health, setHealth] = useState<HealthStatus | null>(null)
+  const [health, setHealth] = useState<HealthData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [summary, setSummary] = useState<MockSummary | null>(null)
 
   useEffect(() => {
     fetch('/api/health')
@@ -20,14 +34,22 @@ function App() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })
-      .then((data: HealthStatus) => {
-        setHealth(data)
+      .then((json) => {
+        setHealth(json.data)
         setLoading(false)
       })
       .catch((err) => {
         setError(err.message)
         setLoading(false)
       })
+
+    fetch('/api/mock/summary')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then((json) => setSummary(json.data))
+      .catch(() => { /* mock summary is optional */ })
   }, [])
 
   const atlas = getKnowledgeAtlasProgress()
@@ -47,6 +69,45 @@ function App() {
             错因归纳、知识点图鉴、今日三题和掌握度更新，将错题从静态收藏转化为复练任务。
           </p>
         </section>
+
+        <section className="status-card">
+          <h2>后端状态</h2>
+          {loading && <p className="status loading">检测中...</p>}
+          {error && <p className="status error">连接失败: {error}</p>}
+          {health && (
+            <div className="status ok">
+              <p className="status-icon">连接正常</p>
+              <dl>
+                <dt>服务</dt>
+                <dd>{health.service}</dd>
+                <dt>版本</dt>
+                <dd>{health.version}</dd>
+                <dt>环境</dt>
+                <dd>{health.environment}</dd>
+                <dt>运行时间</dt>
+                <dd>{health.uptime}s</dd>
+                <dt>LLM 已配置</dt>
+                <dd>{health.llmConfigured ? '是' : '否'}</dd>
+              </dl>
+            </div>
+          )}
+        </section>
+
+        {summary && (
+          <section className="status-card">
+            <h2>Mock 数据总览（来自后端 API）</h2>
+            <dl>
+              <dt>知识点数量</dt>
+              <dd>{summary.knowledgePointCount}</dd>
+              <dt>错题数量</dt>
+              <dd>{summary.mistakeCount}</dd>
+              <dt>今日三题数量</dt>
+              <dd>{summary.practiceTaskCount}</dd>
+              <dt>成就数量</dt>
+              <dd>{summary.achievementCount}</dd>
+            </dl>
+          </section>
+        )}
 
         <section className="status-card">
           <h2>当前学生</h2>
@@ -89,27 +150,6 @@ function App() {
                 </li>
               ))}
             </ul>
-          )}
-        </section>
-
-        <section className="status-card">
-          <h2>后端状态</h2>
-          {loading && <p className="status loading">检测中...</p>}
-          {error && <p className="status error">连接失败: {error}</p>}
-          {health && (
-            <div className="status ok">
-              <p className="status-icon">连接正常</p>
-              <dl>
-                <dt>服务</dt>
-                <dd>{health.service}</dd>
-                <dt>状态</dt>
-                <dd>{health.status}</dd>
-                <dt>LLM 已配置</dt>
-                <dd>{health.llmConfigured ? '是' : '否'}</dd>
-                <dt>时间</dt>
-                <dd>{new Date(health.timestamp).toLocaleString('zh-CN')}</dd>
-              </dl>
-            </div>
           )}
         </section>
       </main>

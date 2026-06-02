@@ -2,6 +2,10 @@ export function getPort(): number {
   return parseInt(process.env.PORT || '3001', 10)
 }
 
+export function getEnvironment(): string {
+  return process.env.NODE_ENV || 'development'
+}
+
 export function isLLMConfigured(): boolean {
   return !!process.env.LLM_API_KEY
 }

@@ -1,13 +1,22 @@
 import { Router, Request, Response } from 'express'
-import { isLLMConfigured } from '../config/env'
+import { isLLMConfigured, getEnvironment } from '../config/env'
+import { successResponse } from '../utils/apiResponse'
 
 export const healthRouter = Router()
 
+const startTime = Date.now()
+
 healthRouter.get('/health', (_req: Request, res: Response) => {
-  res.json({
-    status: 'ok',
-    service: 'mistake-star-map-server',
-    llmConfigured: isLLMConfigured(),
-    timestamp: new Date().toISOString(),
-  })
+  const uptime = parseFloat(((Date.now() - startTime) / 1000).toFixed(1))
+
+  res.json(
+    successResponse({
+      status: 'ok',
+      service: 'mistake-star-map-server',
+      version: '0.1.0',
+      environment: getEnvironment(),
+      llmConfigured: isLLMConfigured(),
+      uptime,
+    })
+  )
 })

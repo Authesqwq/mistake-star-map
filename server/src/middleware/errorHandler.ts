@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { errorResponse } from '../utils/apiResponse'
 
 export function errorHandler(
   err: Error,
@@ -6,9 +7,20 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ) {
-  console.error('[server error]', err.message)
-  res.status(500).json({
-    error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined,
-  })
+  if (process.env.NODE_ENV === 'development') {
+    console.error('[server error]', err.message, err.stack)
+  } else {
+    console.error('[server error]', err.message)
+  }
+
+  if (res.headersSent) {
+    return _next(err)
+  }
+
+  res.status(500).json(
+    errorResponse(
+      'INTERNAL_SERVER_ERROR',
+      process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+    )
+  )
 }
