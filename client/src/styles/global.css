@@ -103,6 +103,10 @@ header h1 {
   margin-bottom: 12px;
 }
 
+.status-card + .status-card {
+  margin-top: 16px;
+}
+
 .status-card dl {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -116,6 +120,24 @@ header h1 {
 
 .status-card dd {
   color: var(--color-text);
+}
+
+.status-card p {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.status-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.status-card li {
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: rgba(108, 99, 255, 0.08);
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
 
 footer {
