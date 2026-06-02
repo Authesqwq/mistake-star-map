@@ -7,7 +7,11 @@ export function getEnvironment(): string {
 }
 
 export function isLLMConfigured(): boolean {
-  return !!process.env.LLM_API_KEY
+  return !!(
+    process.env.LLM_API_KEY &&
+    process.env.LLM_BASE_URL &&
+    process.env.LLM_MODEL
+  )
 }
 
 export function getLLMConfig() {
@@ -16,5 +20,7 @@ export function getLLMConfig() {
     baseUrl: process.env.LLM_BASE_URL || 'https://api.example.com/v1',
     model: process.env.LLM_MODEL || '',
     timeoutMs: parseInt(process.env.LLM_TIMEOUT_MS || '8000', 10),
+    maxRetries: parseInt(process.env.LLM_MAX_RETRIES || '1', 10),
+    temperature: parseFloat(process.env.LLM_TEMPERATURE || '0.2'),
   }
 }

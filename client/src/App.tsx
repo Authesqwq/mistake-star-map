@@ -8,6 +8,11 @@ interface HealthData {
   version: string
   environment: string
   llmConfigured: boolean
+  llmProvider?: {
+    configured: boolean
+    modelConfigured: boolean
+    baseUrlConfigured: boolean
+  }
   uptime: number
 }
 
@@ -22,11 +27,22 @@ interface MockSummary {
   achievementCount: number
 }
 
+interface LlmStatus {
+  configured: boolean
+  modelConfigured: boolean
+  baseUrlConfigured: boolean
+  apiKeyConfigured: boolean
+  model: string
+  timeoutMs: number
+  maxRetries: number
+}
+
 function App() {
   const [health, setHealth] = useState<HealthData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [summary, setSummary] = useState<MockSummary | null>(null)
+  const [llmStatus, setLlmStatus] = useState<LlmStatus | null>(null)
 
   useEffect(() => {
     fetch('/api/health')
@@ -49,7 +65,15 @@ function App() {
         return res.json()
       })
       .then((json) => setSummary(json.data))
-      .catch(() => { /* mock summary is optional */ })
+      .catch(() => {})
+
+    fetch('/api/llm/status')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then((json) => setLlmStatus(json.data))
+      .catch(() => {})
   }, [])
 
   const atlas = getKnowledgeAtlasProgress()
@@ -92,6 +116,24 @@ function App() {
             </div>
           )}
         </section>
+
+        {llmStatus && (
+          <section className="status-card">
+            <h2>LLM 配置状态</h2>
+            <dl>
+              <dt>LLM Configured</dt>
+              <dd>{llmStatus.configured ? 'Yes' : 'No'}</dd>
+              <dt>Model configured</dt>
+              <dd>{llmStatus.modelConfigured ? 'Yes' : 'No'}</dd>
+              <dt>Base URL configured</dt>
+              <dd>{llmStatus.baseUrlConfigured ? 'Yes' : 'No'}</dd>
+              <dt>Timeout</dt>
+              <dd>{llmStatus.timeoutMs}ms</dd>
+              <dt>Max retries</dt>
+              <dd>{llmStatus.maxRetries}</dd>
+            </dl>
+          </section>
+        )}
 
         {summary && (
           <section className="status-card">
