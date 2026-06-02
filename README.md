@@ -69,10 +69,22 @@
 - 本地 Schema 验证脚本 `npm run validate:diagnosis-schema`
 - 不调用真实 LLM，不实现 `/api/diagnose`
 
+### PR6: AI 错因归因接口
+
+- `POST /api/diagnose` - 串联 PR4 LLM Client + PR5 Prompt/Schema
+- `GET /api/diagnose/metrics` - 进程内指标
+- LLM 可用时调用 chatCompletion → 解析 → 校验 → 返回 source=llm
+- LLM 不可用/超时/解析失败/校验失败时自动 fallback
+- Fallback 基于关键词匹配，返回 needReview: true + warnings
+- 请求体 Zod 校验
+- 候选知识点和错因标签白名单过滤
+- 前端轻量联调按钮
+
 ### 当前不包含
 
-- `/api/diagnose`（PR6 实现）
-- 真实大模型调用的业务逻辑（仅 PR4 smoke-test 可用于验证连接）
+- 正式错题录入页 / 知识点图鉴页 / 复练页 / 掌握度更新
+- 数据库
+- 复杂 UI 框架
 - 错题录入 / 错因归因 / 知识点图鉴 / 今日三题 / 复练页面
 - 数据库
 - 复杂 UI 框架
@@ -233,6 +245,8 @@ npm run dev
 | GET | `/api/mock/atlas-progress` | 知识点图鉴进度 |
 | GET | `/api/llm/status` | LLM 配置状态 |
 | POST | `/api/llm/smoke-test` | LLM 烟雾测试（需配置 LLM 环境变量） |
+| POST | `/api/diagnose` | AI 错因归因（未配置 LLM 时自动 fallback） |
+| GET | `/api/diagnose/metrics` | 诊断接口调用指标 |
 
 ### 示例
 
@@ -251,6 +265,31 @@ curl http://localhost:3001/api/llm/status
 ```
 
 如果已配置 LLM 环境变量，可测试连接：
+
+```bash
+curl -X POST http://localhost:3001/api/llm/smoke-test \
+  -H "Content-Type: application/json" \
+  -d '{"message":"你好，请用一句话回复：模型连接正常。"}'
+```
+
+Diagnosis (未配置 LLM 时自动 fallback):
+
+```bash
+curl -X POST http://localhost:3001/api/diagnose \
+  -H "Content-Type: application/json" \
+  -d '{"subjectId":"math","subjectName":"数学","grade":"八年级","question":"已知一次函数 y = -2x + 3，判断函数图像随 x 增大如何变化。","wrongAnswer":"随 x 增大而增大","correctAnswer":"随 x 增大而减小"}'
+```
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:3001/api/diagnose" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"subjectId":"math","subjectName":"数学","grade":"八年级","question":"已知一次函数 y = -2x + 3，判断函数图像随 x 增大如何变化。","wrongAnswer":"随 x 增大而增大","correctAnswer":"随 x 增大而减小"}'
+```
+
+LLM smoke test:
 
 ```bash
 curl -X POST http://localhost:3001/api/llm/smoke-test \
