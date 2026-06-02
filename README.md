@@ -47,10 +47,23 @@
 - 前端通过 API 获取 Mock 数据总览
 - 环境变量新增 `NODE_ENV`
 
+### PR4: LLM Provider 适配层
+
+- OpenAI-compatible Chat Completions 客户端
+- LLM 配置校验与安全降级
+- 超时控制（基于 `LLM_TIMEOUT_MS`）
+- 重试机制（可配置 `LLM_MAX_RETRIES`，仅对网络错误/5xx/超时重试）
+- LLM 错误类型（配置错误、超时、Provider 错误、响应解析错误）
+- `/api/llm/status` - LLM 配置状态查询
+- `/api/llm/smoke-test` - 开发环境烟雾测试（不承载业务逻辑）
+- 健康检查增强（llmProvider 字段）
+- 前端展示 LLM 配置状态
+
 ### 当前不包含
 
-- 真实大模型调用
-- LLM Provider / Prompt
+- 真实大模型调用的业务逻辑（仅 smoke-test 可用于验证连接）
+- Prompt 模板与结构化 Schema
+- `/api/diagnose`
 - 错题录入 / 错因归因 / 知识点图鉴 / 今日三题 / 复练页面
 - 数据库
 - 复杂 UI 框架
@@ -92,11 +105,19 @@ mistake-star-map/
 │   │   │   └── notFoundHandler.ts  # 404 处理
 │   │   ├── routes/
 │   │   │   ├── health.ts           # 健康检查路由
-│   │   │   └── mock.ts             # Mock 数据 API
+│   │   │   ├── mock.ts             # Mock 数据 API
+│   │   │   └── llm.ts              # LLM 状态与烟雾测试
 │   │   ├── services/
-│   │   │   └── mockDataService.ts  # Mock 数据服务层
+│   │   │   ├── mockDataService.ts  # Mock 数据服务层
+│   │   │   └── llm/                # LLM Provider 适配层
+│   │   │       ├── llmTypes.ts     # LLM 类型定义
+│   │   │       ├── llmErrors.ts    # LLM 错误类型
+│   │   │       ├── llmConfig.ts    # 配置校验
+│   │   │       ├── llmClient.ts    # 核心调用客户端
+│   │   │       └── index.ts        # 导出索引
 │   │   ├── utils/
-│   │   │   └── apiResponse.ts      # 统一响应工具
+│   │   │   ├── apiResponse.ts      # 统一响应工具
+│   │   │   └── timeout.ts          # 超时控制工具
 │   │   ├── app.ts                  # Express app 配置
 │   │   └── index.ts                # 服务入口
 │   ├── package.json
@@ -117,8 +138,10 @@ mistake-star-map/
 | `LLM_BASE_URL` | LLM API 地址 | `https://api.example.com/v1` |
 | `LLM_MODEL` | 模型名称 | - |
 | `LLM_TIMEOUT_MS` | LLM 请求超时（毫秒） | `8000` |
+| `LLM_MAX_RETRIES` | LLM 请求重试次数 | `1` |
+| `LLM_TEMPERATURE` | LLM 生成温度 | `0.2` |
 
-> **安全约定**: API Key 只允许放在 server 侧环境变量中，前端不可访问。使用 `.env.example` 作为模板，真实 `.env` 不提交到仓库。
+> **安全约定**: API Key 只允许放在 server 侧环境变量中，前端不可访问。使用 `.env.example` 作为模板，真实 `.env` 不提交到仓库。前端不会读取或传递 API Key。
 
 ## 本地运行
 
@@ -183,20 +206,47 @@ npm run dev
 | GET | `/api/mock/achievements` | 成就列表 |
 | GET | `/api/mock/weekly-report` | 周报 |
 | GET | `/api/mock/atlas-progress` | 知识点图鉴进度 |
+| GET | `/api/llm/status` | LLM 配置状态 |
+| POST | `/api/llm/smoke-test` | LLM 烟雾测试（需配置 LLM 环境变量） |
 
 ### 示例
 
 ```bash
+# Health check
 curl http://localhost:3001/api/health
+
+# Mock APIs
 curl http://localhost:3001/api/mock/summary
 curl http://localhost:3001/api/mock/knowledge-points
 curl http://localhost:3001/api/mock/knowledge-points?status=to_repair
 curl http://localhost:3001/api/mock/mistakes?difficulty=hard
+
+# LLM status
+curl http://localhost:3001/api/llm/status
+```
+
+如果已配置 LLM 环境变量，可测试连接：
+
+```bash
+curl -X POST http://localhost:3001/api/llm/smoke-test \
+  -H "Content-Type: application/json" \
+  -d '{"message":"你好，请用一句话回复：模型连接正常。"}'
+```
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:3001/api/llm/smoke-test" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"message":"你好，请用一句话回复：模型连接正常。"}'
 ```
 
 ## 当前能力边界
 
-- 后端提供 13 个 API 端点（1 个 health + 12 个 mock），均为只读
+- 后端提供 15 个 API 端点（1 个 health + 12 个 mock + 2 个 llm）
 - `llmConfigured` 仅反映环境变量是否设置，不代表实际 LLM 调用能力
+- 未配置 LLM 时，smoke-test 返回 400 错误，系统安全降级
 - 所有业务数据来自 Mock，无需数据库
-- 后续 PR4 将接入 LLM Provider 适配层
+- 后续 PR5 将实现 Prompt 模板与结构化输出 Schema
+- 后续 PR6 将实现 /api/diagnose
