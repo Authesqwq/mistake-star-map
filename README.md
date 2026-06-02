@@ -9,7 +9,7 @@
 - **前端**: React + Vite + TypeScript
 - **后端**: Node.js + Express + TypeScript
 - **包管理**: npm
-- **LLM 兼容**: OpenAI-compatible API（预留，本 PR 不调用）
+- **LLM 兼容**: OpenAI-compatible API（预留，尚未接入）
 
 ## PR 完成内容
 
@@ -20,37 +20,37 @@
 - 根目录统一管理脚本（install、dev、build）
 - 健康检查接口 `GET /api/health`
 - 前端展示后端连接状态
-- LLM 配置能力预留（不实际调用大模型）
+- LLM 配置能力预留
 
 ### PR2: 数据模型与 Mock 数据
 
-- 核心 TypeScript 类型定义（`client/src/types/domain.ts`）
+- 核心 TypeScript 类型定义
 - Mock 知识点树：数学学科 × 3 章节 × 11 个知识点
 - Mock 错因标签体系：7 类错因
 - Mock 错题数据：10 条，覆盖 3 个章节
-- Mock AI 归因结果：10 条，含置信度与复练建议
-- Mock 今日三题：3 条复练任务
-- Mock 成就数据：7 个成就
-- Mock 周报数据：1 份周报
-- 基础数据查询工具函数（`client/src/utils/mockSelectors.ts`）
-- 前端轻量更新，展示 Mock 数据统计
-- 后端类型文件与精简 Mock 数据（`server/src/types/domain.ts`、`server/src/data/mockData.ts`）
+- Mock AI 归因结果：10 条
+- Mock 今日三题：3 条
+- Mock 成就数据：7 个
+- Mock 周报数据：1 份
+- 前端 Mock 数据查询工具函数
 
-#### Mock 数据覆盖
+### PR3: 后端 API 基础设施与 Mock 数据接口
 
-| 数据类别 | 数量 | 覆盖范围 |
-|----------|------|----------|
-| 知识点 | 11 | 一次函数(4)、分式方程(3)、全等三角形(4) |
-| 错因标签 | 7 | 计算、概念、逻辑、审题、迁移、表达、公式 |
-| 错题 | 10 | 3 章节 × 3 难度级别 |
-| AI 归因 | 10 | 含 2 条低置信度需人工复核 |
-| 今日三题 | 3 | 核心修复 / 同类巩固 / 间隔复查 |
-| 成就 | 7 | 探索 / 复练 / 日常 / 突破 / 毅力 |
-| 周报 | 1 | 含掌握度变化与下周建议 |
+- Express app 结构拆分（app.ts + index.ts）
+- 统一 API 响应格式（`{ success, data/error, timestamp }`）
+- 请求日志中间件
+- 404 路由处理
+- 增强的错误处理中间件（统一格式，dev 环境输出详细信息）
+- 增强 `/api/health`（版本、环境、运行时间）
+- 12 个只读 Mock API 端点
+- Mock Data Service 层封装
+- 前端通过 API 获取 Mock 数据总览
+- 环境变量新增 `NODE_ENV`
 
 ### 当前不包含
 
 - 真实大模型调用
+- LLM Provider / Prompt
 - 错题录入 / 错因归因 / 知识点图鉴 / 今日三题 / 复练页面
 - 数据库
 - 复杂 UI 框架
@@ -65,19 +65,11 @@ mistake-star-map/
 │   ├── src/
 │   │   ├── types/
 │   │   │   └── domain.ts           # 核心类型定义
-│   │   ├── data/
-│   │   │   ├── mockStudent.ts      # 学生数据
-│   │   │   ├── mockKnowledge.ts    # 知识点树
-│   │   │   ├── mockErrorTags.ts    # 错因标签
-│   │   │   ├── mockMistakes.ts     # 错题数据
-│   │   │   ├── mockDiagnosis.ts    # AI 归因结果
-│   │   │   ├── mockPracticeTasks.ts # 复练任务
-│   │   │   ├── mockAchievements.ts # 成就数据
-│   │   │   ├── mockWeeklyReport.ts # 周报数据
+│   │   ├── data/                   # Mock 数据（8 个文件）
 │   │   │   └── index.ts            # 数据导出索引
 │   │   ├── utils/
 │   │   │   └── mockSelectors.ts    # 数据查询工具
-│   │   ├── App.tsx                 # 主页面组件
+│   │   ├── App.tsx                 # 主页面
 │   │   ├── main.tsx                # React 入口
 │   │   └── styles/
 │   │       └── global.css          # 全局样式
@@ -88,16 +80,25 @@ mistake-star-map/
 ├── server/                         # 后端工程
 │   ├── src/
 │   │   ├── types/
-│   │   │   └── domain.ts           # 后端类型定义
+│   │   │   ├── domain.ts           # 后端类型定义
+│   │   │   └── api.ts              # API 响应类型
 │   │   ├── data/
 │   │   │   └── mockData.ts         # 后端 Mock 数据
-│   │   ├── index.ts                # Express 入口
 │   │   ├── config/
 │   │   │   └── env.ts              # 环境变量配置
+│   │   ├── middleware/
+│   │   │   ├── errorHandler.ts     # 错误处理中间件
+│   │   │   ├── requestLogger.ts    # 请求日志中间件
+│   │   │   └── notFoundHandler.ts  # 404 处理
 │   │   ├── routes/
-│   │   │   └── health.ts           # 健康检查路由
-│   │   └── middleware/
-│   │       └── errorHandler.ts     # 错误处理中间件
+│   │   │   ├── health.ts           # 健康检查路由
+│   │   │   └── mock.ts             # Mock 数据 API
+│   │   ├── services/
+│   │   │   └── mockDataService.ts  # Mock 数据服务层
+│   │   ├── utils/
+│   │   │   └── apiResponse.ts      # 统一响应工具
+│   │   ├── app.ts                  # Express app 配置
+│   │   └── index.ts                # 服务入口
 │   ├── package.json
 │   └── tsconfig.json
 ├── .env.example                    # 环境变量示例
@@ -111,6 +112,7 @@ mistake-star-map/
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
 | `PORT` | 后端服务端口 | `3001` |
+| `NODE_ENV` | 运行环境 | `development` |
 | `LLM_API_KEY` | LLM API 密钥（空表示未配置） | - |
 | `LLM_BASE_URL` | LLM API 地址 | `https://api.example.com/v1` |
 | `LLM_MODEL` | 模型名称 | - |
@@ -137,7 +139,6 @@ npm run dev
 
 - 前端: http://localhost:5173
 - 后端: http://localhost:3001
-- 健康检查: http://localhost:3001/api/health
 
 ## 可用命令
 
@@ -151,9 +152,51 @@ npm run dev
 | `npm run build:client` | 仅构建前端 |
 | `npm run build:server` | 仅构建后端 |
 
+## API 列表
+
+### 统一响应格式
+
+成功响应：
+```json
+{ "success": true, "data": { ... }, "timestamp": "..." }
+```
+
+错误响应：
+```json
+{ "success": false, "error": { "code": "...", "message": "..." }, "timestamp": "..." }
+```
+
+### 端点
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/health` | 健康检查（含版本、环境、运行时间、LLM 配置状态） |
+| GET | `/api/mock/summary` | Mock 数据总览 |
+| GET | `/api/mock/student` | 学生信息 |
+| GET | `/api/mock/knowledge-points` | 知识点列表（可选 `?status=&chapterId=`） |
+| GET | `/api/mock/knowledge-points/:id` | 单个知识点 |
+| GET | `/api/mock/error-tags` | 错因标签列表 |
+| GET | `/api/mock/mistakes` | 错题列表（可选 `?knowledgePointId=&errorTagId=&difficulty=`） |
+| GET | `/api/mock/mistakes/:id` | 单条错题 |
+| GET | `/api/mock/diagnosis/:mistakeId` | 错因归因结果 |
+| GET | `/api/mock/practice-tasks/today` | 今日三题 |
+| GET | `/api/mock/achievements` | 成就列表 |
+| GET | `/api/mock/weekly-report` | 周报 |
+| GET | `/api/mock/atlas-progress` | 知识点图鉴进度 |
+
+### 示例
+
+```bash
+curl http://localhost:3001/api/health
+curl http://localhost:3001/api/mock/summary
+curl http://localhost:3001/api/mock/knowledge-points
+curl http://localhost:3001/api/mock/knowledge-points?status=to_repair
+curl http://localhost:3001/api/mock/mistakes?difficulty=hard
+```
+
 ## 当前能力边界
 
-- `/api/health` 是当前唯一可用的 API 端点
-- `llmConfigured` 字段反映 `LLM_API_KEY` 环境变量是否已设置，不代表实际调用能力
-- 所有业务数据来自前端 Mock，无需后端数据库
-- 后续 PR 将接入 LLM Provider、Prompt 管理、AI 错因归因接口、后端 API、业务页面
+- 后端提供 13 个 API 端点（1 个 health + 12 个 mock），均为只读
+- `llmConfigured` 仅反映环境变量是否设置，不代表实际 LLM 调用能力
+- 所有业务数据来自 Mock，无需数据库
+- 后续 PR4 将接入 LLM Provider 适配层

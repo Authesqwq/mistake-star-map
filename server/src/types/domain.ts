@@ -100,3 +100,31 @@ export interface PracticeTask {
   status: PracticeTaskStatus
   createdAt: string
 }
+
+export interface Achievement {
+  id: string
+  title: string
+  description: string
+  category: string
+  icon: string
+  unlocked: boolean
+  unlockedAt: string | null
+}
+
+export interface MasterySnapshot {
+  knowledgePointId: string
+  name: string
+  beforeMastery: number
+  afterMastery: number
+}
+
+export interface WeeklyReport {
+  id: string
+  weekRange: string
+  completedPracticeCount: number
+  repairedErrorTags: ErrorTagId[]
+  masteryImprovedKnowledgePoints: MasterySnapshot[]
+  highRiskKnowledgePoints: { knowledgePointId: string; reason: string }[]
+  nextWeekSuggestions: string[]
+  generatedAt: string
+}
