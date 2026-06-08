@@ -105,6 +105,7 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
         onOpenMistakeInput={onNavigate ? () => onNavigate('mistake-input') : undefined}
         onOpenAtlas={onNavigate ? () => onNavigate('atlas') : undefined}
         onOpenAchievements={onNavigate ? () => onNavigate('achievements') : undefined}
+        onOpenReport={onNavigate ? () => onNavigate('report') : undefined}
       />
     </div>
   )
