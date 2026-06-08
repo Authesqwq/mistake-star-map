@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { MotivationProfile, AchievementProgress } from '../types/achievement'
 import { getAchievementDefinitions } from '../utils/achievementRules'
+import { trackEvent } from "../utils/analyticsTracker"
 import { evaluateAndPersistAchievements, getCurrentMotivationProfile } from '../utils/achievementSignals'
 import { getAchievementRecords, saveAchievementRecords, clearAchievementState } from '../utils/achievementStorage'
 import { SectionHeader } from '../components/ui/SectionHeader'
@@ -26,6 +27,7 @@ export function AchievementCenterPage() {
     setProgress(result.progress)
     saveAchievementRecords(getAchievementRecords())
     setLoading(false)
+trackEvent("achievement_center_viewed", "achievements")
   }, [])
 
   const handleClear = () => {

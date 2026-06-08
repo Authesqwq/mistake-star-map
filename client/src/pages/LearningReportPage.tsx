@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import type { ReportRange, LearningReport } from '../types/report'
 import { getConfirmedDiagnoses } from '../utils/diagnosisStorage'
+import { trackEvent } from "../utils/analyticsTracker"
 import { getPracticeResults } from '../utils/practiceStorage'
 import { getSavedMasterySnapshots } from '../utils/masteryStorage'
 import { getAchievementRecords, getMotivationProfile } from '../utils/achievementStorage'
@@ -46,9 +47,11 @@ export function LearningReportPage() {
     setLoading(true)
     buildReport()
     setLoading(false)
+trackEvent("report_generated", "report", { practiceCount: summary?.totalPracticeCount ?? 0 })
   }, [buildReport])
 
   const handleCopy = async () => {
+trackEvent("report_markdown_copied", "report")
     if (!report) return
     await copyReportMarkdown(report.markdownSummary)
     setCopied(true)
@@ -62,6 +65,7 @@ export function LearningReportPage() {
   }
 
   const handleDownload = () => {
+trackEvent("report_json_exported", "report")
     if (!report) return
     downloadReportJson(report)
   }
@@ -108,9 +112,11 @@ export function LearningReportPage() {
 
       <div style={{ marginBottom: 24 }}>
         <ReportMarkdownPreview markdown={report!.markdownSummary} onCopy={handleCopy} copied={copied} />
+trackEvent("report_markdown_copied", "report")
       </div>
 
       <ReportExportPanel savedCount={savedCount} onDownload={handleDownload} onClear={handleClear} />
+trackEvent("report_json_exported", "report")
     </div>
   )
 }

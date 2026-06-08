@@ -16,6 +16,7 @@ import { PracticeResultList } from '../components/practice/PracticeResultList'
 import { PracticeEmptyState } from '../components/practice/PracticeEmptyState'
 import { MasteryImpactCard } from '../components/mastery/MasteryImpactCard'
 import { AchievementToast } from '../components/achievement/AchievementToast'
+import { trackEvent } from "../utils/analyticsTracker"
 import { evaluateAndPersistAchievements } from '../utils/achievementSignals'
 import type { AchievementRecord } from '../types/achievement'
 import { SectionHeader } from '../components/ui/SectionHeader'
@@ -45,6 +46,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
 
   const handleSubmit = async () => {
     setSubmitting(true)
+trackEvent("practice_submitted", "practice", { taskId: selectedTask.id, knowledgePointId: selectedTask.knowledgePointId, practiceType: selectedTask.practiceType })
     setSubmitError(null)
     try {
       const result = await evaluatePracticeAnswer({
@@ -57,6 +59,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
         userAnswer,
       })
       setEvaluation(result)
+trackEvent("practice_feedback_received", "practice", { status: result.status, isCorrect: result.isCorrect })
 
       if (!saved) {
         const record: PracticeResultRecord = {
@@ -80,6 +83,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
         })
         saveMasterySnapshots([snapshot])
         setMasterySnapshot(snapshot)
+trackEvent("mastery_snapshot_updated", "practice")
 
         const achievementResult = evaluateAndPersistAchievements()
         setNewlyUnlocked(achievementResult.newlyUnlocked)

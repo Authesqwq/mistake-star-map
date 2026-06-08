@@ -16,6 +16,7 @@ import { RecommendationSummaryCard } from '../components/today/RecommendationSum
 import { ErrorState } from '../components/ui/ErrorState'
 import { LoadingState } from '../components/ui/LoadingState'
 import { mapErrorTagNames } from '../utils/dashboardSelectors'
+import { trackEvent } from "../utils/analyticsTracker"
 import { evaluateAndPersistAchievements } from '../utils/achievementSignals'
 import type { MotivationProfile } from '../types/achievement'
 import type { KnowledgePoint, ErrorTag } from '../types/domain'
@@ -58,6 +59,7 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
         setLlmModelConfig(llmData.modelConfigured)
         setLlmUrlConfig(llmData.baseUrlConfigured)
         setRecResponse(recData)
+trackEvent("today_recommendation_loaded", "today", { taskCount: recData.tasks?.length ?? 0, source: recData.source })
         const achievementResult = evaluateAndPersistAchievements()
         setMotivationProfile(achievementResult.profile)
         setLoading(false)
