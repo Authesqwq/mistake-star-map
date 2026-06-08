@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
   { id: 'practice', label: '复练任务', icon: '?', view: 'practice' },
   { id: 'report', label: '学习报告', icon: '?', view: 'report' },
 { id: 'achievements', label: '成就中心', icon: '?', view: 'achievements' },
+{ id: "metrics", label: "指标看板", icon: "?", view: "metrics" },
   { id: 'dev', label: '开发联调', icon: '?', view: 'dev' },
 ]
 

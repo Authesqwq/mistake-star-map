@@ -16,6 +16,7 @@ import {
 } from '../utils/atlasSelectors'
 import { LoadingState } from '../components/ui/LoadingState'
 import { ErrorState } from '../components/ui/ErrorState'
+import { trackEvent } from "../utils/analyticsTracker"
 import { AtlasHeader } from '../components/atlas/AtlasHeader'
 import { AtlasStatsGrid } from '../components/atlas/AtlasStatsGrid'
 import { AtlasFilterBar } from '../components/atlas/AtlasFilterBar'
@@ -48,10 +49,12 @@ export function KnowledgeAtlasPage() {
         setMistakes(mData as unknown as Mistake[])
         setErrorTags(tData as unknown as ErrorTag[])
         setLoading(false)
+        trackEvent("atlas_viewed", "atlas");
       })
       .catch((e) => {
         setError(e instanceof ApiError ? e.message : '加载失败')
         setLoading(false)
+        trackEvent("atlas_viewed", "atlas");
       })
   }, [])
 

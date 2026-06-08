@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { DiagnoseResponse, ConfirmedDiagnosisRecord } from '../types/diagnosis'
 import type { KnowledgePoint, ErrorTag } from '../types/domain'
+import { trackEvent } from "../utils/analyticsTracker"
 import { getKnowledgePoints, getErrorTags, diagnoseMistake, ApiError } from '../services/apiClient'
 import { saveConfirmedDiagnosis, getConfirmedCount } from '../utils/diagnosisStorage'
 import { mapKnowledgePointOptions, mapErrorTagOptions } from '../utils/diagnosisMappers'
@@ -81,6 +82,7 @@ export function MistakeInputPage() {
   const handleSubmit = async () => {
     if (!validateForm()) return
     setSubmitting(true)
+trackEvent("diagnosis_started", "mistake_input")
     setDiagResult(null)
     setConfirmedRecord(null)
     try {
@@ -95,10 +97,12 @@ export function MistakeInputPage() {
         candidateErrorTagIds: selTags,
       })
       setDiagResult(result)
+trackEvent("diagnosis_succeeded", "mistake_input", { source: result.source, confidence: result.confidence, needReview: result.needReview })
       setCorrectedKpId(result.knowledgePointId)
       setCorrectedTagIds(result.errorTags.map((t) => t.id))
     } catch (e) {
       setFormErrors([e instanceof ApiError ? `${e.code}: ${e.message}` : '请求失败'])
+trackEvent("diagnosis_failed", "mistake_input")
     } finally {
       setSubmitting(false)
     }
@@ -130,6 +134,7 @@ export function MistakeInputPage() {
     }
     saveConfirmedDiagnosis(record)
     setConfirmedRecord(record)
+trackEvent("diagnosis_confirmed", "mistake_input")
     setRecordCount(getConfirmedCount())
   }
 

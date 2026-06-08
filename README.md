@@ -159,6 +159,17 @@
 - 前端 DevPreview 评测面板
 - npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
 
+### PR17: 数据埋点与指标看板
+
+- 本地埋点事件类型（21 种事件）
+- localStorage 事件采集与敏感字段过滤
+- 指标看板页面（产品使用/AI归因/推荐/复练/图鉴/成就/报告指标）
+- 链路漏斗、事件日志、本地数据健康卡
+- 指标 JSON 导出
+- 核心页面埋点集成
+- 不记录完整题目/答案/API Key/raw LLM
+- 不上传任何行为数据
+
 ### 当前不包含
 
 ### PR9: 错题录入与 AI 归因联调
@@ -227,6 +238,17 @@
 - CLI 评测脚本（fixture/fallback 不调用 LLM）
 - 前端 DevPreview 评测面板
 - npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
+
+### PR17: 数据埋点与指标看板
+
+- 本地埋点事件类型（21 种事件）
+- localStorage 事件采集与敏感字段过滤
+- 指标看板页面（产品使用/AI归因/推荐/复练/图鉴/成就/报告指标）
+- 链路漏斗、事件日志、本地数据健康卡
+- 指标 JSON 导出
+- 核心页面埋点集成
+- 不记录完整题目/答案/API Key/raw LLM
+- 不上传任何行为数据
 
 ### 当前不包含
 
@@ -308,6 +330,17 @@
 - CLI 评测脚本（fixture/fallback 不调用 LLM）
 - 前端 DevPreview 评测面板
 - npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
+
+### PR17: 数据埋点与指标看板
+
+- 本地埋点事件类型（21 种事件）
+- localStorage 事件采集与敏感字段过滤
+- 指标看板页面（产品使用/AI归因/推荐/复练/图鉴/成就/报告指标）
+- 链路漏斗、事件日志、本地数据健康卡
+- 指标 JSON 导出
+- 核心页面埋点集成
+- 不记录完整题目/答案/API Key/raw LLM
+- 不上传任何行为数据
 
 ### 当前不包含
 
