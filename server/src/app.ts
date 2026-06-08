@@ -4,6 +4,7 @@ import { requestLogger } from './middleware/requestLogger'
 import { healthRouter } from './routes/health'
 import { mockRouter } from './routes/mock'
 import { llmRouter } from './routes/llm'
+import { recommendationRouter } from './routes/recommendations'
 import { diagnoseRouter } from './routes/diagnose'
 import { notFoundHandler } from './middleware/notFoundHandler'
 import { errorHandler } from './middleware/errorHandler'
@@ -18,6 +19,7 @@ app.use('/api', healthRouter)
 app.use('/api/mock', mockRouter)
 app.use('/api/llm', llmRouter)
 app.use('/api/diagnose', diagnoseRouter)
+app.use('/api/recommendations', recommendationRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
