@@ -11,7 +11,7 @@ const navItems: NavItem[] = [
   { id: 'today', label: '今日修复中心', icon: '?', view: 'today' },
   { id: 'mistake-input', label: '错题录入', icon: '?', view: 'mistake-input' },
   { id: 'atlas', label: '知识点图鉴', icon: '?', view: 'atlas' },
-  { id: 'practice', label: '复练任务', icon: '?', disabled: true },
+  { id: 'practice', label: '复练任务', icon: '?', view: 'practice' },
   { id: 'report', label: '学习报告', icon: '?', disabled: true },
   { id: 'dev', label: '开发联调', icon: '?', view: 'dev' },
 ]

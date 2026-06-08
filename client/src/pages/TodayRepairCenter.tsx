@@ -18,11 +18,14 @@ import { LoadingState } from '../components/ui/LoadingState'
 import { mapErrorTagNames } from '../utils/dashboardSelectors'
 import type { KnowledgePoint, ErrorTag } from '../types/domain'
 
+import type { RecommendedPracticeTask } from '../types/recommendation'
+
 interface TodayRepairCenterProps {
   onNavigate?: (view: string) => void
+  onStartPractice?: (task: RecommendedPracticeTask) => void
 }
 
-export function TodayRepairCenter({ onNavigate }: TodayRepairCenterProps) {
+export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCenterProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [student, setStudent] = useState<{ id: string; name: string; grade: string; streakDays: number; repairValue: number; totalMistakes: number; completedPracticeCount: number } | null>(null)
@@ -75,7 +78,7 @@ export function TodayRepairCenter({ onNavigate }: TodayRepairCenterProps) {
       />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24, marginBottom: 24 }}>
-        <TodayTaskList tasks={recResponse?.tasks ?? []} />
+        <TodayTaskList tasks={recResponse?.tasks ?? []} onStartPractice={onStartPractice} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <AtlasProgressCard {...atlas} />
           <AiStatusCard configured={llmConfigured} modelConfigured={llmModelConfig} baseUrlConfigured={llmUrlConfig} />
