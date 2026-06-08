@@ -6,10 +6,11 @@ import { MistakeInputPage } from './pages/MistakeInputPage'
 import { KnowledgeAtlasPage } from './pages/KnowledgeAtlasPage'
 import { PracticePage } from './pages/PracticePage'
 import { AchievementCenterPage } from './pages/AchievementCenterPage'
+import { LearningReportPage } from './pages/LearningReportPage'
 import { DevPreviewPage } from './pages/DevPreviewPage'
 import type { RecommendedPracticeTask } from './types/recommendation'
 
-export type ActiveView = 'today' | 'mistake-input' | 'atlas' | 'practice' | 'achievements' | 'dev'
+export type ActiveView = 'today' | 'mistake-input' | 'atlas' | 'practice' | 'achievements' | 'report' | 'dev'
 
 function App() {
   const [backendOk, setBackendOk] = useState(false)
@@ -36,15 +37,12 @@ function App() {
 
   return (
     <AppShell backendOk={backendOk} activeView={activeView} onNavigate={nav}>
-      {activeView === 'today' && (
-        <TodayRepairCenter onNavigate={nav} onStartPractice={handleStartPractice} />
-      )}
+      {activeView === 'today' && <TodayRepairCenter onNavigate={nav} onStartPractice={handleStartPractice} />}
       {activeView === 'mistake-input' && <MistakeInputPage />}
       {activeView === 'atlas' && <KnowledgeAtlasPage />}
-      {activeView === 'practice' && (
-        <PracticePage selectedTask={selectedPracticeTask} onBack={handleBackFromPractice} />
-      )}
+      {activeView === 'practice' && <PracticePage selectedTask={selectedPracticeTask} onBack={handleBackFromPractice} />}
       {activeView === 'achievements' && <AchievementCenterPage />}
+      {activeView === 'report' && <LearningReportPage />}
       {activeView === 'dev' && <DevPreviewPage />}
     </AppShell>
   )

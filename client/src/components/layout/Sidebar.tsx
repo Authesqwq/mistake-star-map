@@ -12,7 +12,7 @@ const navItems: NavItem[] = [
   { id: 'mistake-input', label: '错题录入', icon: '?', view: 'mistake-input' },
   { id: 'atlas', label: '知识点图鉴', icon: '?', view: 'atlas' },
   { id: 'practice', label: '复练任务', icon: '?', view: 'practice' },
-  { id: 'report', label: '学习报告', icon: '?', disabled: true },
+  { id: 'report', label: '学习报告', icon: '?', view: 'report' },
 { id: 'achievements', label: '成就中心', icon: '?', view: 'achievements' },
   { id: 'dev', label: '开发联调', icon: '?', view: 'dev' },
 ]
