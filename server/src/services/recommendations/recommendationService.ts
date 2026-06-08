@@ -40,6 +40,12 @@ export async function getTodayRecommendations(
       localByKp[s.knowledgePointId] = (localByKp[s.knowledgePointId] ?? 0) + 1
     }
 
+    // Apply local mastery signals
+    const masteryByKp: Record<string, { mastery: number; status: string }> = {}
+    for (const ms of (request as any).localMasterySignals ?? []) {
+      masteryByKp[ms.knowledgePointId] = { mastery: ms.currentMastery, status: ms.displayStatus }
+    }
+
     // Generate candidates
     const candidates: RecommendedPracticeTask[] = knowledgePoints
       .map((kp) => {
@@ -50,12 +56,14 @@ export async function getTodayRecommendations(
         }
 
         const chapter = mockChapters.find((c) => c.knowledgePointIds.includes(kp.id))
+        const localM = masteryByKp[kp.id]
+        const effectiveMastery = localM?.mastery ?? kp.mastery
         const breakdown = calculatePriorityBreakdown({
           relatedMistakeCount: kp.relatedMistakeIds.length,
           localDiagnosisCount: localCount,
           majorErrorTagIds: kp.majorErrorTagIds,
           errorTagSeverityMap: severityMap,
-          mastery: kp.mastery,
+          mastery: effectiveMastery,
           nextReviewAt: kp.nextReviewAt,
         })
 
@@ -66,7 +74,7 @@ export async function getTodayRecommendations(
           knowledgePointName: kp.name,
           relatedMistakeCount: kp.relatedMistakeIds.length,
           localDiagnosisCount: localCount,
-          mastery: kp.mastery,
+          mastery: effectiveMastery,
           practiceType,
           isReviewDue,
         })
@@ -96,7 +104,7 @@ export async function getTodayRecommendations(
             relatedMistakeCount: kp.relatedMistakeIds.length,
             localDiagnosisCount: localCount,
             majorErrorTagIds: kp.majorErrorTagIds,
-            mastery: kp.mastery,
+            mastery: effectiveMastery,
             nextReviewAt: kp.nextReviewAt,
           },
           status: 'pending' as const,

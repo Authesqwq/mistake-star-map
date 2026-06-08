@@ -1,3 +1,4 @@
+import { getLocalMasterySignals } from '../utils/masterySignals'
 import type { ApiResponse } from './apiTypes'
 
 export async function requestJson<T>(
@@ -190,6 +191,7 @@ export function getTodayRecommendations(
       limit: 3,
       useAiReason: false,
       localDiagnosisSignals: getLocalDiagnosisSignals(),
+      localMasterySignals: getLocalMasterySignals(),
       ...payload,
     }),
   })
