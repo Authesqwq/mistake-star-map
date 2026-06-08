@@ -5,9 +5,10 @@ import { TodayTaskCard } from './TodayTaskCard'
 
 interface TodayTaskListProps {
   tasks: RecommendedPracticeTask[]
+  onStartPractice?: (task: RecommendedPracticeTask) => void
 }
 
-export function TodayTaskList({ tasks }: TodayTaskListProps) {
+export function TodayTaskList({ tasks, onStartPractice }: TodayTaskListProps) {
   const sorted = [...tasks].sort((a, b) => b.priorityScore - a.priorityScore).slice(0, 3)
 
   return (
@@ -17,7 +18,7 @@ export function TodayTaskList({ tasks }: TodayTaskListProps) {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {sorted.map((task) => (
-            <TodayTaskCard key={task.id} task={task} />
+            <TodayTaskCard key={task.id} task={task} onStartPractice={onStartPractice} />
           ))}
         </div>
       )}

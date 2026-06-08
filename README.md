@@ -103,6 +103,18 @@
 - 开发联调页保留 ApiStatusPanel、MockSummaryPanel、DiagnosisSmokePanel
 - 首页不会自动调用 /api/diagnose
 
+### PR12: 复练页面与答题反馈
+
+- 复练任务页面（题目展示 + 答案输入 + 提交反馈）
+- 首页"开始复练"进入复练页
+- 后端 POST /api/practice/evaluate 规则判题
+- GET /api/practice/metrics 进程内指标
+- correct / incorrect / needs_review 三类判题结果
+- 低压力反馈文案
+- 复练结果保存到 localStorage（key: mistake-star-map.practice-results）
+- 最近复练记录展示 + 清空确认
+- Sidebar "复练任务"入口
+
 ### 当前不包含
 
 ### PR9: 错题录入与 AI 归因联调
@@ -115,6 +127,18 @@
 - Sidebar 错题录入入口 + 首页 QuickEntry 跳转
 - 未配置 LLM 时自动展示 fallback 结果
 - 不写入后端数据库，不更新知识点图鉴
+
+### PR12: 复练页面与答题反馈
+
+- 复练任务页面（题目展示 + 答案输入 + 提交反馈）
+- 首页"开始复练"进入复练页
+- 后端 POST /api/practice/evaluate 规则判题
+- GET /api/practice/metrics 进程内指标
+- correct / incorrect / needs_review 三类判题结果
+- 低压力反馈文案
+- 复练结果保存到 localStorage（key: mistake-star-map.practice-results）
+- 最近复练记录展示 + 清空确认
+- Sidebar "复练任务"入口
 
 ### 当前不包含
 
@@ -140,6 +164,18 @@
 - 大模型不参与推荐排序
 - 评分拆解展示（PriorityBreakdown）
 - 推荐说明卡（RecommendationSummaryCard）
+
+### PR12: 复练页面与答题反馈
+
+- 复练任务页面（题目展示 + 答案输入 + 提交反馈）
+- 首页"开始复练"进入复练页
+- 后端 POST /api/practice/evaluate 规则判题
+- GET /api/practice/metrics 进程内指标
+- correct / incorrect / needs_review 三类判题结果
+- 低压力反馈文案
+- 复练结果保存到 localStorage（key: mistake-star-map.practice-results）
+- 最近复练记录展示 + 清空确认
+- Sidebar "复练任务"入口
 
 ### 当前不包含
 

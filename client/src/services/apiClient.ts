@@ -198,3 +198,23 @@ export function getTodayRecommendations(
 export function getRecommendationMetrics(): Promise<RecMetrics> {
   return requestJson<RecMetrics>('/api/recommendations/metrics')
 }
+
+// ── PR12: Practice ──
+
+import type { PracticeEvaluateRequest, PracticeEvaluateResponse } from '../types/practice'
+
+interface PracticeMetrics {
+  totalEvaluateRequests: number; correctCount: number; incorrectCount: number
+  needsReviewCount: number; averageLatencyMs: number
+}
+
+export function evaluatePracticeAnswer(payload: PracticeEvaluateRequest): Promise<PracticeEvaluateResponse> {
+  return requestJson<PracticeEvaluateResponse>('/api/practice/evaluate', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export function getPracticeMetrics(): Promise<PracticeMetrics> {
+  return requestJson<PracticeMetrics>('/api/practice/metrics')
+}

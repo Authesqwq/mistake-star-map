@@ -8,10 +8,10 @@ import { formatTaskRole, formatPracticeType } from '../../utils/recommendationMa
 
 interface TodayTaskCardProps {
   task: RecommendedPracticeTask
+  onStartPractice?: (task: RecommendedPracticeTask) => void
 }
 
-export function TodayTaskCard({ task }: TodayTaskCardProps) {
-  const [showHint, setShowHint] = useState(false)
+export function TodayTaskCard({ task, onStartPractice }: TodayTaskCardProps) {
   const [showBreakdown, setShowBreakdown] = useState(false)
 
   return (
@@ -20,15 +20,12 @@ export function TodayTaskCard({ task }: TodayTaskCardProps) {
       description={`${task.knowledgePointName} · ${task.chapterName}`}
       footer={
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Button size="sm" onClick={() => setShowHint(true)}>开始复练</Button>
+          <Button size="sm" onClick={() => onStartPractice?.(task)}>
+            开始复练
+          </Button>
           <Button size="sm" variant="ghost" onClick={() => setShowBreakdown((p) => !p)}>
             {showBreakdown ? '收起评分' : '查看评分'}
           </Button>
-          {showHint && (
-            <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-              复练流程将在后续 PR 实现
-            </span>
-          )}
         </div>
       }
     >
