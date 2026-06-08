@@ -115,6 +115,17 @@
 - 最近复练记录展示 + 清空确认
 - Sidebar "复练任务"入口
 
+### PR13: 掌握度更新闭环
+
+- 本地掌握度计算规则（Mock 初始 + PR9 归因 + PR12 复练结果）
+- MasterySnapshot localStorage 存储
+- 复练提交后展示 MasteryImpactCard
+- 知识点图鉴展示 currentMastery 和复练历史
+- 首页图鉴进度和高风险知识点计入本地掌握度
+- 推荐 API 接收 localMasterySignals 影响排序
+- 掌握度变化记录（MasteryHistoryList）
+- 本 PR 仅前端派生，不写入后端
+
 ### 当前不包含
 
 ### PR9: 错题录入与 AI 归因联调
@@ -139,6 +150,17 @@
 - 复练结果保存到 localStorage（key: mistake-star-map.practice-results）
 - 最近复练记录展示 + 清空确认
 - Sidebar "复练任务"入口
+
+### PR13: 掌握度更新闭环
+
+- 本地掌握度计算规则（Mock 初始 + PR9 归因 + PR12 复练结果）
+- MasterySnapshot localStorage 存储
+- 复练提交后展示 MasteryImpactCard
+- 知识点图鉴展示 currentMastery 和复练历史
+- 首页图鉴进度和高风险知识点计入本地掌握度
+- 推荐 API 接收 localMasterySignals 影响排序
+- 掌握度变化记录（MasteryHistoryList）
+- 本 PR 仅前端派生，不写入后端
 
 ### 当前不包含
 
@@ -176,6 +198,17 @@
 - 复练结果保存到 localStorage（key: mistake-star-map.practice-results）
 - 最近复练记录展示 + 清空确认
 - Sidebar "复练任务"入口
+
+### PR13: 掌握度更新闭环
+
+- 本地掌握度计算规则（Mock 初始 + PR9 归因 + PR12 复练结果）
+- MasterySnapshot localStorage 存储
+- 复练提交后展示 MasteryImpactCard
+- 知识点图鉴展示 currentMastery 和复练历史
+- 首页图鉴进度和高风险知识点计入本地掌握度
+- 推荐 API 接收 localMasterySignals 影响排序
+- 掌握度变化记录（MasteryHistoryList）
+- 本 PR 仅前端派生，不写入后端
 
 ### 当前不包含
 

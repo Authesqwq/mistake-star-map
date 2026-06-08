@@ -13,6 +13,14 @@ export const recommendationRequestSchema = z.object({
   grade: z.string().max(20).optional(),
   limit: z.number().int().min(1).max(5).default(3),
   useAiReason: z.boolean().default(false),
+  localMasterySignals: z.array(z.object({
+    knowledgePointId: z.string().min(1),
+    currentMastery: z.number().default(50),
+    displayStatus: z.string().default("discovered"),
+    correctCount: z.number().default(0),
+    incorrectCount: z.number().default(0),
+    lastPracticedAt: z.string().optional(),
+  })).max(50).default([]),
   localDiagnosisSignals: z
     .array(localDiagnosisSignalSchema)
     .max(50)
