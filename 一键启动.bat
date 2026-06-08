@@ -1,5 +1,6 @@
 @echo off
-chcp 65001 >nul
+setlocal enabledelayedexpansion
+cd /d "%~dp0"
 title 错题星图 - 一键启动
 
 echo ========================================
@@ -8,47 +9,67 @@ echo ========================================
 echo.
 
 :: Check Node.js
-where node >nul 2>nul
-if %errorlevel% neq 0 (
-    echo [错误] 未检测到 Node.js，请先安装 Node.js LTS 版本。
-    echo 下载地址: https://nodejs.org/
+node --version >nul 2>nul
+if errorlevel 1 (
+    echo [错误] 未检测到 Node.js
+    echo 请先安装 Node.js LTS：https://nodejs.org/
     pause
     exit /b 1
 )
-echo [OK] Node.js 已安装
+for /f "tokens=*" %%i in ('node --version') do echo [OK] Node.js %%i
 
-:: Check npm.cmd
-where npm.cmd >nul 2>nul
-if %errorlevel% neq 0 (
-    echo [错误] 未检测到 npm.cmd
+:: npm 随 Node.js 一起安装
+npm --version >nul 2>nul
+if errorlevel 1 (
+    echo [错误] npm 不可用
     pause
     exit /b 1
 )
-echo [OK] npm 可用
+for /f "tokens=*" %%i in ('npm --version') do echo [OK] npm %%i
 echo.
 
-:: Install dependencies if needed
-if not exist "node_modules" (
-    echo [安装] 正在安装根目录依赖...
-    call npm.cmd install
+:: Install root dependencies
+if not exist "%CD%\node_modules" (
+    echo [安装] 根目录依赖...
+    call npm install
+    if errorlevel 1 (
+        echo [失败] 根目录依赖安装失败
+        pause
+        exit /b 1
+    )
 )
-if not exist "client\node_modules" (
-    echo [安装] 正在安装 client 依赖...
-    cd client
-    call npm.cmd install
-    cd ..
+
+:: Install client dependencies
+if not exist "%CD%\client\node_modules" (
+    echo [安装] client 依赖...
+    pushd "%CD%\client"
+    call npm install
+    if errorlevel 1 (
+        popd
+        echo [失败] client 依赖安装失败
+        pause
+        exit /b 1
+    )
+    popd
 )
-if not exist "server\node_modules" (
-    echo [安装] 正在安装 server 依赖...
-    cd server
-    call npm.cmd install
-    cd ..
+
+:: Install server dependencies
+if not exist "%CD%\server\node_modules" (
+    echo [安装] server 依赖...
+    pushd "%CD%\server"
+    call npm install
+    if errorlevel 1 (
+        popd
+        echo [失败] server 依赖安装失败
+        pause
+        exit /b 1
+    )
+    popd
 )
+
 echo [OK] 依赖就绪
 echo.
-
-:: Start dev servers
-echo [启动] 正在启动前后端开发服务器...
+echo [启动] 启动前后端开发服务器...
 echo   前端: http://localhost:5173
 echo   后端: http://localhost:3001
 echo.
@@ -56,6 +77,6 @@ echo.
 :: Open browser
 start "" http://localhost:5173
 
-call npm.cmd run dev
+call npm run dev
 
 pause
