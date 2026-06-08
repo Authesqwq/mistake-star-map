@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul 2>nul
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
 title 错题星图 - 一键验收
@@ -8,7 +9,6 @@ echo   错题星图 - 一键验收
 echo ========================================
 echo.
 
-:: Check Node.js
 node --version >nul 2>nul
 if errorlevel 1 (
     echo [错误] 未检测到 Node.js
@@ -67,5 +67,4 @@ echo 运行 一键启动.bat 启动项目
 echo   前端: http://localhost:5173
 echo   后端: http://localhost:3001
 echo.
-
 pause
