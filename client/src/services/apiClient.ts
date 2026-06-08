@@ -167,3 +167,34 @@ export function diagnoseMistake(payload: DiagnoseRequest): Promise<DiagnoseRespo
     body: JSON.stringify(payload),
   })
 }
+
+// ── PR11: Recommendations ──
+
+import type { TodayRecommendationRequest, RecommendationResponse } from '../types/recommendation'
+import { getLocalDiagnosisSignals } from '../utils/localDiagnosisSignals'
+
+interface RecMetrics {
+  totalRequests: number; ruleSuccessCount: number; mockFallbackCount: number
+  aiReasonAttemptCount: number; aiReasonSuccessCount: number; aiReasonFallbackCount: number
+  averageLatencyMs: number
+}
+
+export function getTodayRecommendations(
+  payload?: Partial<TodayRecommendationRequest>
+): Promise<RecommendationResponse> {
+  return requestJson<RecommendationResponse>('/api/recommendations/today', {
+    method: 'POST',
+    body: JSON.stringify({
+      subjectId: 'math',
+      grade: '八年级',
+      limit: 3,
+      useAiReason: false,
+      localDiagnosisSignals: getLocalDiagnosisSignals(),
+      ...payload,
+    }),
+  })
+}
+
+export function getRecommendationMetrics(): Promise<RecMetrics> {
+  return requestJson<RecMetrics>('/api/recommendations/metrics')
+}

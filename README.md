@@ -128,6 +128,19 @@
 - 清空本地确认记录（二次确认）
 - Sidebar "知识点图鉴" 入口 + 首页 QuickEntry 跳转
 
+### PR11: 今日三题推荐服务
+
+- 规则推荐优先级算法（错题频次 30% + 错因严重度 25% + 掌握度缺口 25% + 复查时间 20%）
+- POST /api/recommendations/today - 生成今日推荐任务
+- GET /api/recommendations/metrics - 进程内推荐指标
+- 本地确认记录作为推荐信号参与排序
+- 首页「今日三题」改为读取推荐 API
+- 推荐失败时 fallback 到 Mock 今日三题
+- AI 推荐理由已预留但默认不启用（useAiReason: false）
+- 大模型不参与推荐排序
+- 评分拆解展示（PriorityBreakdown）
+- 推荐说明卡（RecommendationSummaryCard）
+
 ### 当前不包含
 
 - 复练答题页 / 掌握度真实更新 / 学习报告 / 成就系统
