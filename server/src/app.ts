@@ -6,6 +6,7 @@ import { mockRouter } from './routes/mock'
 import { llmRouter } from './routes/llm'
 import { recommendationRouter } from './routes/recommendations'
 import { practiceRouter } from "./routes/practice"
+import { evalRouter } from "./routes/eval"
 import { diagnoseRouter } from './routes/diagnose'
 import { notFoundHandler } from './middleware/notFoundHandler'
 import { errorHandler } from './middleware/errorHandler'

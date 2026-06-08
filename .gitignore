@@ -4,3 +4,6 @@ dist
 .env.local
 .DS_Store
 *.log
+server/eval-reports/*.json
+server/eval-reports/*.md
+!server/eval-reports/.gitkeep
