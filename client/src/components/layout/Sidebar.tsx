@@ -13,6 +13,7 @@ const navItems: NavItem[] = [
   { id: 'atlas', label: '知识点图鉴', icon: '?', view: 'atlas' },
   { id: 'practice', label: '复练任务', icon: '?', view: 'practice' },
   { id: 'report', label: '学习报告', icon: '?', disabled: true },
+{ id: 'achievements', label: '成就中心', icon: '?', view: 'achievements' },
   { id: 'dev', label: '开发联调', icon: '?', view: 'dev' },
 ]
 

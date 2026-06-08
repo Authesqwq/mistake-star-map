@@ -126,6 +126,18 @@
 - 掌握度变化记录（MasteryHistoryList）
 - 本 PR 仅前端派生，不写入后端
 
+### PR14: 成就与正向激励系统
+
+- 成就规则引擎（19 个成就定义，5 个类别）
+- 修复值 repairValue 计算（归因 +2、复练 +5、答对 +5、成就 +10~35）
+- 连续修复日 streakDays 计算
+- 成就 localStorage 持久化
+- AchievementCenterPage 成就中心页面
+- 复练完成后可触发成就反馈（AchievementToast）
+- 首页展示 MotivationProfile（修复值、连续修复日、最近成就）
+- 不做排行榜、不做抽奖、不做惩罚打卡
+- 修复值只奖励有效学习行为
+
 ### 当前不包含
 
 ### PR9: 错题录入与 AI 归因联调
@@ -161,6 +173,18 @@
 - 推荐 API 接收 localMasterySignals 影响排序
 - 掌握度变化记录（MasteryHistoryList）
 - 本 PR 仅前端派生，不写入后端
+
+### PR14: 成就与正向激励系统
+
+- 成就规则引擎（19 个成就定义，5 个类别）
+- 修复值 repairValue 计算（归因 +2、复练 +5、答对 +5、成就 +10~35）
+- 连续修复日 streakDays 计算
+- 成就 localStorage 持久化
+- AchievementCenterPage 成就中心页面
+- 复练完成后可触发成就反馈（AchievementToast）
+- 首页展示 MotivationProfile（修复值、连续修复日、最近成就）
+- 不做排行榜、不做抽奖、不做惩罚打卡
+- 修复值只奖励有效学习行为
 
 ### 当前不包含
 
@@ -209,6 +233,18 @@
 - 推荐 API 接收 localMasterySignals 影响排序
 - 掌握度变化记录（MasteryHistoryList）
 - 本 PR 仅前端派生，不写入后端
+
+### PR14: 成就与正向激励系统
+
+- 成就规则引擎（19 个成就定义，5 个类别）
+- 修复值 repairValue 计算（归因 +2、复练 +5、答对 +5、成就 +10~35）
+- 连续修复日 streakDays 计算
+- 成就 localStorage 持久化
+- AchievementCenterPage 成就中心页面
+- 复练完成后可触发成就反馈（AchievementToast）
+- 首页展示 MotivationProfile（修复值、连续修复日、最近成就）
+- 不做排行榜、不做抽奖、不做惩罚打卡
+- 修复值只奖励有效学习行为
 
 ### 当前不包含
 

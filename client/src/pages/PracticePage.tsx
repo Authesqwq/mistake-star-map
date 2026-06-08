@@ -15,6 +15,9 @@ import { PracticeFeedbackCard } from '../components/practice/PracticeFeedbackCar
 import { PracticeResultList } from '../components/practice/PracticeResultList'
 import { PracticeEmptyState } from '../components/practice/PracticeEmptyState'
 import { MasteryImpactCard } from '../components/mastery/MasteryImpactCard'
+import { AchievementToast } from '../components/achievement/AchievementToast'
+import { evaluateAndPersistAchievements } from '../utils/achievementSignals'
+import type { AchievementRecord } from '../types/achievement'
 import { SectionHeader } from '../components/ui/SectionHeader'
 
 interface PracticePageProps {
@@ -29,6 +32,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
   const [saved, setSaved] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [masterySnapshot, setMasterySnapshot] = useState<MasterySnapshot | null>(null)
+  const [newlyUnlocked, setNewlyUnlocked] = useState<AchievementRecord[]>([])
 
   if (!selectedTask) {
     return (
@@ -76,6 +80,9 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
         })
         saveMasterySnapshots([snapshot])
         setMasterySnapshot(snapshot)
+
+        const achievementResult = evaluateAndPersistAchievements()
+        setNewlyUnlocked(achievementResult.newlyUnlocked)
       }
     } catch (e) {
       setSubmitError(e instanceof ApiError ? `${e.code}: ${e.message}` : '提交失败')
@@ -90,6 +97,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
     setSaved(false)
     setSubmitError(null)
     setMasterySnapshot(null)
+    setNewlyUnlocked([])
   }
 
   return (
@@ -105,6 +113,7 @@ export function PracticePage({ selectedTask, onBack }: PracticePageProps) {
           {submitError && <div style={{ padding: 12, background: '#fee2e2', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', color: 'var(--color-danger)' }}>{submitError}</div>}
           {evaluation && <PracticeFeedbackCard evaluation={evaluation} userAnswer={userAnswer} expectedAnswer={selectedTask.expectedAnswer} />}
           {masterySnapshot && <MasteryImpactCard snapshot={masterySnapshot} practiceResult={{ status: evaluation?.status ?? 'needs_review' }} />}
+          {newlyUnlocked.length > 0 && <AchievementToast newlyUnlocked={newlyUnlocked} onClose={() => setNewlyUnlocked([])} />}
         </div>
       </div>
       <PracticeResultList />
