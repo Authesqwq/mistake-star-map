@@ -86,6 +86,16 @@ npm run dev
 - 后端: http://localhost:3001
 - 健康检查: http://localhost:3001/api/health
 
+### 一键运行方式（Windows）
+
+电脑需要提前安装 [Node.js LTS](https://nodejs.org/)，且 `.env` 不应提交到仓库。
+
+**一键启动**：双击 `一键启动.bat`，自动安装依赖并启动前后端服务器，浏览器打开 http://localhost:5173。
+
+**一键验收**：双击 `一键验收.bat`，依次执行 `install:all` → `build` → `eval:diagnosis` → `final-check`，全部通过后显示"验收通过"。
+
+未配置 LLM 时 fallback 可用，归因接口会返回规则兜底结果、needReview 标记和中文提示，不影响演示体验。
+
 ## 可用命令
 
 | 命令 | 说明 |
