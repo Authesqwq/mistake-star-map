@@ -14,7 +14,8 @@
     "validate:diagnosis-schema": "cd server && npm run validate:diagnosis-schema",
     "eval:diagnosis": "cd server && npm run eval:diagnosis",
     "eval:diagnosis:fallback": "cd server && npm run eval:diagnosis:fallback",
-    "eval:diagnosis:live": "cd server && npm run eval:diagnosis:live"
+    "eval:diagnosis:live": "cd server && npm run eval:diagnosis:live",
+    "final-check": "node scripts/final-check.mjs"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
