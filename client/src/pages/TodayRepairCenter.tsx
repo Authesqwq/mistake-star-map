@@ -16,6 +16,8 @@ import { RecommendationSummaryCard } from '../components/today/RecommendationSum
 import { ErrorState } from '../components/ui/ErrorState'
 import { LoadingState } from '../components/ui/LoadingState'
 import { mapErrorTagNames } from '../utils/dashboardSelectors'
+import { evaluateAndPersistAchievements } from '../utils/achievementSignals'
+import type { MotivationProfile } from '../types/achievement'
 import type { KnowledgePoint, ErrorTag } from '../types/domain'
 
 import type { RecommendedPracticeTask } from '../types/recommendation'
@@ -36,6 +38,7 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
   const [llmConfigured, setLlmConfigured] = useState(false)
   const [llmModelConfig, setLlmModelConfig] = useState(false)
   const [llmUrlConfig, setLlmUrlConfig] = useState(false)
+  const [motivationProfile, setMotivationProfile] = useState<MotivationProfile | null>(null)
 
   useEffect(() => {
     Promise.all([
@@ -55,6 +58,8 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
         setLlmModelConfig(llmData.modelConfigured)
         setLlmUrlConfig(llmData.baseUrlConfigured)
         setRecResponse(recData)
+        const achievementResult = evaluateAndPersistAchievements()
+        setMotivationProfile(achievementResult.profile)
         setLoading(false)
       })
       .catch((e) => {
@@ -73,7 +78,8 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
     <div>
       <WelcomeHero name={student.name} grade={student.grade} streakDays={student.streakDays} />
       <StudentStatsGrid
-        streakDays={student.streakDays} repairValue={student.repairValue}
+        streakDays={motivationProfile?.streakDays ?? student.streakDays}
+        repairValue={motivationProfile?.repairValue ?? student.repairValue}
         totalMistakes={student.totalMistakes} completedPracticeCount={student.completedPracticeCount}
       />
 
@@ -98,6 +104,7 @@ export function TodayRepairCenter({ onNavigate, onStartPractice }: TodayRepairCe
       <QuickEntryGrid
         onOpenMistakeInput={onNavigate ? () => onNavigate('mistake-input') : undefined}
         onOpenAtlas={onNavigate ? () => onNavigate('atlas') : undefined}
+        onOpenAchievements={onNavigate ? () => onNavigate('achievements') : undefined}
       />
     </div>
   )

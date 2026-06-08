@@ -5,10 +5,11 @@ import { TodayRepairCenter } from './pages/TodayRepairCenter'
 import { MistakeInputPage } from './pages/MistakeInputPage'
 import { KnowledgeAtlasPage } from './pages/KnowledgeAtlasPage'
 import { PracticePage } from './pages/PracticePage'
+import { AchievementCenterPage } from './pages/AchievementCenterPage'
 import { DevPreviewPage } from './pages/DevPreviewPage'
 import type { RecommendedPracticeTask } from './types/recommendation'
 
-export type ActiveView = 'today' | 'mistake-input' | 'atlas' | 'practice' | 'dev'
+export type ActiveView = 'today' | 'mistake-input' | 'atlas' | 'practice' | 'achievements' | 'dev'
 
 function App() {
   const [backendOk, setBackendOk] = useState(false)
@@ -43,6 +44,7 @@ function App() {
       {activeView === 'practice' && (
         <PracticePage selectedTask={selectedPracticeTask} onBack={handleBackFromPractice} />
       )}
+      {activeView === 'achievements' && <AchievementCenterPage />}
       {activeView === 'dev' && <DevPreviewPage />}
     </AppShell>
   )
