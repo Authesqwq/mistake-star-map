@@ -149,6 +149,16 @@
 - Sidebar + QuickEntry "学习报告"入口
 - 不调用大模型生成报告
 
+### PR16: AI 归因评测与回归测试
+
+- 30 条诊断评测 Case（core 18 + boundary 5 + safety 4 + adversarial 3）
+- Fixture/Fallback/Live 三种评测模式
+- 6 维度评分（Schema/KP/Tags/Type/Review/Safety）
+- Markdown + JSON 评测报告生成
+- CLI 评测脚本（fixture/fallback 不调用 LLM）
+- 前端 DevPreview 评测面板
+- npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
+
 ### 当前不包含
 
 ### PR9: 错题录入与 AI 归因联调
@@ -207,6 +217,16 @@
 - 11 个报告组件
 - Sidebar + QuickEntry "学习报告"入口
 - 不调用大模型生成报告
+
+### PR16: AI 归因评测与回归测试
+
+- 30 条诊断评测 Case（core 18 + boundary 5 + safety 4 + adversarial 3）
+- Fixture/Fallback/Live 三种评测模式
+- 6 维度评分（Schema/KP/Tags/Type/Review/Safety）
+- Markdown + JSON 评测报告生成
+- CLI 评测脚本（fixture/fallback 不调用 LLM）
+- 前端 DevPreview 评测面板
+- npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
 
 ### 当前不包含
 
@@ -278,6 +298,16 @@
 - 11 个报告组件
 - Sidebar + QuickEntry "学习报告"入口
 - 不调用大模型生成报告
+
+### PR16: AI 归因评测与回归测试
+
+- 30 条诊断评测 Case（core 18 + boundary 5 + safety 4 + adversarial 3）
+- Fixture/Fallback/Live 三种评测模式
+- 6 维度评分（Schema/KP/Tags/Type/Review/Safety）
+- Markdown + JSON 评测报告生成
+- CLI 评测脚本（fixture/fallback 不调用 LLM）
+- 前端 DevPreview 评测面板
+- npm run eval:diagnosis / eval:diagnosis:fallback / eval:diagnosis:live
 
 ### 当前不包含
 

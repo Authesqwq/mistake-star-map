@@ -220,3 +220,22 @@ export function evaluatePracticeAnswer(payload: PracticeEvaluateRequest): Promis
 export function getPracticeMetrics(): Promise<PracticeMetrics> {
   return requestJson<PracticeMetrics>('/api/practice/metrics')
 }
+
+// ── PR16: Eval ──
+
+import type { DiagnosisEvalRunResponse } from '../types/eval'
+
+interface EvalSummary { totalCases: number; byCategory: Record<string, number> }
+
+export function getDiagnosisEvalSummary(): Promise<EvalSummary> {
+  return requestJson<EvalSummary>('/api/eval/diagnosis/summary')
+}
+
+export function runDiagnosisEval(payload?: {
+  mode?: 'fixture' | 'fallback'; category?: string; limit?: number
+}): Promise<DiagnosisEvalRunResponse> {
+  return requestJson<DiagnosisEvalRunResponse>('/api/eval/diagnosis/run', {
+    method: 'POST',
+    body: JSON.stringify({ mode: 'fixture', limit: 30, ...payload }),
+  })
+}

@@ -11,7 +11,10 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
-    "validate:diagnosis-schema": "cd server && npm run validate:diagnosis-schema"
+    "validate:diagnosis-schema": "cd server && npm run validate:diagnosis-schema",
+    "eval:diagnosis": "cd server && npm run eval:diagnosis",
+    "eval:diagnosis:fallback": "cd server && npm run eval:diagnosis:fallback",
+    "eval:diagnosis:live": "cd server && npm run eval:diagnosis:live"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

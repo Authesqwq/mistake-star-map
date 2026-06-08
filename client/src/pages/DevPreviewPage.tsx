@@ -2,6 +2,7 @@ import { ApiStatusPanel } from '../components/dev/ApiStatusPanel'
 import { MockSummaryPanel } from '../components/dev/MockSummaryPanel'
 import { DiagnosisSmokePanel } from '../components/dev/DiagnosisSmokePanel'
 import { SectionHeader } from '../components/ui/SectionHeader'
+import { DiagnosisEvalPanel } from "../components/dev/DiagnosisEvalPanel"
 
 export function DevPreviewPage() {
   return (
@@ -14,6 +15,7 @@ export function DevPreviewPage() {
         <ApiStatusPanel />
         <MockSummaryPanel />
         <DiagnosisSmokePanel />
+      <DiagnosisEvalPanel />
       </div>
     </div>
   )
