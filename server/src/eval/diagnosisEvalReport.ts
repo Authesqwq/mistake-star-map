@@ -59,7 +59,7 @@ export function buildDiagnosisEvalJsonReport(params: {
   }
 }
 
-const REPORT_DIR = path.resolve(__dirname, '../../..', 'eval-reports')
+const REPORT_DIR = path.resolve(__dirname, '../../../server', 'eval-reports')
 
 export function saveEvalReport(params: {
   summary: DiagnosisEvalSummary; results: DiagnosisEvalCaseResult[]
